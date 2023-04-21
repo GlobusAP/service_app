@@ -52,8 +52,8 @@ class Plan(models.Model):
 
         return super().save(*args, **kwargs)
 
-    def __str__(self):
-        return f'Plan: {self.plan_type}, {self.discount_percent}%'
+    # def __str__(self):
+    #     return f'Plan: {self.plan_type}, {self.discount_percent}%'
 
 
 class Subscription(models.Model):
@@ -61,7 +61,7 @@ class Subscription(models.Model):
     service = models.ForeignKey(Service, related_name='subscriptions', on_delete=models.PROTECT)
     plan = models.ForeignKey(Plan, related_name='subscriptions', on_delete=models.PROTECT)
     price = models.PositiveIntegerField(default=0)
-    comment = models.CharField(max_length=50, default='')
+    comment = models.CharField(max_length=50, default='', db_index=True)
 
     def save(self, *args, **kwargs):
         creating = not bool(self.id)
